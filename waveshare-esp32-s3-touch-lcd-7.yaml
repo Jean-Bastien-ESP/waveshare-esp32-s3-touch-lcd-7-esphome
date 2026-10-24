@@ -1,5 +1,5 @@
 esphome:
-  min_version: "2025.8.0"
+  min_version: "2026.10.3"
   platformio_options:
     board_upload.maximum_ram_size: 524288
 
@@ -26,14 +26,12 @@ ch422g:
   - id: ch422g_hub
 
 output:
-  - platform: gpio
+  - platform: template
     id: lcdbacklight_output
-    pin:
-      ch422g: ch422g_hub
-      number: 2
-      mode:
-        output: true
-      inverted: false
+    type: binary
+    write_action:
+      - lambda: |-
+          id(ch422g_hub)->digital_write(2, state);
 
 light:
   - platform: binary
@@ -120,7 +118,7 @@ display:
     data_pins:
       red:
         - 1         #r3
-        - 2         #r4
+        - 2 #r4
         - 42        #r5
         - 41        #r6
         - 40        #r7
